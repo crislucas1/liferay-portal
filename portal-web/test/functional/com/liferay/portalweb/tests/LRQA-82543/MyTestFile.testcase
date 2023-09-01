@@ -1,0 +1,43 @@
+@component-name = "portal-web-forms-and-data-lists"
+definition {
+
+	property osgi.module.configuration.file.names = "com.liferay.frontend.js.loader.modules.extender.internal.configuration.Details.config";
+	property osgi.module.configurations = "waitTimeout=\"15\"";
+	property portal.release = "true";
+	property portal.upstream = "true";
+	property testray.main.component.name = "Forms";
+
+	setUp {
+		TestCase.setUpPortalInstance();
+
+		User.firstLoginPG();
+
+		Navigator.openURL();
+	}
+
+	tearDown {
+		User.logoutAndLoginPG(
+			userLoginEmailAddress = "test@liferay.com",
+			userLoginFullName = "Test Test");
+	}
+
+	@description = "Access Portal Global Menu and validate CONFIGURATION string at Control Panel"
+	@priority = 5
+	test ValidateConfigurationStringAtControlPanel {
+
+		task ("Clicking on the application menu > go to control panel tab"){
+
+			Click(locator1 = "//button[@data-qa-id='applicationsMenu']");
+
+			Click(locator1 = "//li[contains(@id,'ApplicationsMenuPortlet_tab_2')]");
+			
+			}
+
+		task ("Check the configuration string"){
+
+			AssertElementPresent(locator1 = "//h2[contains(text(),'Configuration')]");
+			
+			}
+	}
+
+}
