@@ -24,20 +24,15 @@ definition {
 	@description = "Access Portal Global Menu and validate CONFIGURATION string at Control Panel"
 	@priority = 5
 	test ValidateConfigurationStringAtControlPanel {
-
-		task ("Clicking on the application menu > go to control panel tab"){
-
+		task ("Clicking on the application menu > go to control panel tab") {
 			Click(locator1 = "//button[@data-qa-id='applicationsMenu']");
 
 			Click(locator1 = "//li[contains(@id,'ApplicationsMenuPortlet_tab_2')]");
-			
-			}
+		}
 
-		task ("Check the configuration string"){
-
+		task ("Check the configuration string") {
 			AssertElementPresent(locator1 = "//h2[contains(text(),'Configuration')]");
-			
-			}
+		}
 	}
 
 }
