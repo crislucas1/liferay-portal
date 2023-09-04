@@ -1,131 +1,124 @@
 @component-name = "portal-web-forms-and-data-lists"
 definition {
 
-    property osgi.module.configuration.file.names = "com.liferay.frontend.js.loader.modules.extender.internal.configuration.Details.config";
+	property osgi.module.configuration.file.names = "com.liferay.frontend.js.loader.modules.extender.internal.configuration.Details.config";
 	property osgi.module.configurations = "waitTimeout=\"15\"";
 	property portal.release = "true";
 	property portal.upstream = "true";
-	property testray.main.component.name = "Forms";    
+	property testray.main.component.name = "Forms";
 
-    setUp {
-        TestCase.setUpPortalInstance();
+	setUp {
+		TestCase.setUpPortalInstance();
 
-        User.firstLoginPG();
+		User.firstLoginPG();
 
-        Navigator.openURL();
-    }
+		Navigator.openURL();
+	}
 
-    tearDown {
-        User.logoutAndLoginPG(
-            userLoginEmailAddress = "test@liferay.com",
-            userLoginFullName = "Test Test");
-    }
+	tearDown {
+		User.logoutAndLoginPG(
+			userLoginEmailAddress = "test@liferay.com",
+			userLoginFullName = "Test Test");
+	}
 
-    @description = "Set Screen size to custom and validate values"
-    @priority = "5"
-    test SetScreenSizeAndValidateValues {
+	@description = "Set Screen size to custom and validate values"
+	@priority = 5
+	test SetScreenSizeAndValidateValues {
+		task ("Clicking on the simulation button > clicking on custom") {
+			Click(locator1 = "//button[@data-qa-id='simulation']");
 
-            task ("Clicking on the simulation button > clicking on custom"){
+			Click(locator1 = "//button[contains(@aria-controls,'Selector')]");
+		}
 
-                    Click(locator1 = "//button[@data-qa-id='simulation']");
+		task ("Clicking and selecting all in the width input") {
+			Click(locator1 = "//input[contains(@id,'width')]");
 
-                    Click(locator1 = "//button[contains(@aria-controls,'Selector')]");
-            
-            }
+			Type.sendKeys(
+				locator1 = "//input[contains(@id,'width')]",
+				value1 = "keys=CONTROL,a");
+		}
 
-            task ("Clicking and selecting all in the width input"){
-            
-                    Click(locator1 = "//input[contains(@id,'width')]");
+		task ("Entering value in width input") {
+			Type.sendKeys(
+				locator1 = "//input[contains(@id,'width')]",
+				value1 = 1920);
+		}
 
-                    Type.sendKeys(
-                        locator1 = "//input[contains(@id,'width')]",
-                        value1 = "keys=CONTROL,a");
-            }
+		task ("Clicking and selecting all in the height input") {
+			Click(locator1 = "//input[contains(@id,'height')]");
 
-            task ("Entering value in width input"){
-                    Type.sendKeys(
-                        locator1 = "//input[contains(@id,'width')]",
-                        value1 = 1920);
-            }
+			Type.sendKeys(
+				locator1 = "//input[contains(@id,'height')]",
+				value1 = "keys=CONTROL,a");
+		}
 
-            task ("Clicking and selecting all in the height input"){
-                    Click(locator1 = "//input[contains(@id,'height')]");
-                    
-                    Type.sendKeys(
-                        locator1 = "//input[contains(@id,'height')]",
-                        value1 = "keys=CONTROL,a");
-            }
+		task ("Entering value in width input") {
+			Type.sendKeys(
+				locator1 = "//input[contains(@id,'height')]",
+				value1 = 1080);
+		}
 
-            task ("Entering value in width input"){
-                    Type.sendKeys(
-                        locator1 = "//input[contains(@id,'height')]",
-                        value1 = 1080);
-            }
+		task ("Applying the changes and closing the simulation tab") {
+			Click(locator1 = "//button[contains(text(),'Apply')]");
 
-            task ("Applying the changes and closing the simulation tab"){
-                    Click(locator1 = "//button[contains(text(),'Apply')]");
+			Click(locator1 = "//button[contains(@class,'close')]");
+		}
 
-                    Click(locator1 = "//button[contains(@class,'close')]");
-            }
+		task ("Repeating the previous steps one more time due to a portal bug > Clicking on the simulation button > clicking on custom") {
+			Click(locator1 = "//button[@data-qa-id='simulation']");
 
-            task ("Repeating the previous steps one more time due to a portal bug > Clicking on the simulation button > clicking on custom"){
+			Click(locator1 = "//button[contains(@aria-controls,'Selector')]");
+		}
 
-                Click(locator1 = "//button[@data-qa-id='simulation']");
+		task ("Clicking and selecting all in the width input") {
+			Click(locator1 = "//input[contains(@id,'width')]");
 
-                Click(locator1 = "//button[contains(@aria-controls,'Selector')]");
-        
-            }
+			Type.sendKeys(
+				locator1 = "//input[contains(@id,'width')]",
+				value1 = "keys=CONTROL,a");
+		}
 
-            task ("Clicking and selecting all in the width input"){
-            
-                    Click(locator1 = "//input[contains(@id,'width')]");
+		task ("Entering value in width input") {
+			Type.sendKeys(
+				locator1 = "//input[contains(@id,'width')]",
+				value1 = 1920);
+		}
 
-                    Type.sendKeys(
-                        locator1 = "//input[contains(@id,'width')]",
-                        value1 = "keys=CONTROL,a");
-            }
+		task ("Clicking and selecting all in the height input") {
+			Click(locator1 = "//input[contains(@id,'height')]");
 
-            task ("Entering value in width input"){
-                    Type.sendKeys(
-                        locator1 = "//input[contains(@id,'width')]",
-                        value1 = 1920);
-            }
+			Type.sendKeys(
+				locator1 = "//input[contains(@id,'height')]",
+				value1 = "keys=CONTROL,a");
+		}
 
-            task ("Clicking and selecting all in the height input"){
-                    Click(locator1 = "//input[contains(@id,'height')]");
-                    
-                    Type.sendKeys(
-                        locator1 = "//input[contains(@id,'height')]",
-                        value1 = "keys=CONTROL,a");
-            }
+		task ("Entering value in width input") {
+			Type.sendKeys(
+				locator1 = "//input[contains(@id,'height')]",
+				value1 = 1080);
+		}
 
-            task ("Entering value in width input"){
-                    Type.sendKeys(
-                        locator1 = "//input[contains(@id,'height')]",
-                        value1 = 1080);
-            }
+		task ("Applying the changes and closing the simulation tab") {
+			Click(locator1 = "//button[contains(text(),'Apply')]");
 
-            task ("Applying the changes and closing the simulation tab"){
-                    Click(locator1 = "//button[contains(text(),'Apply')]");
+			Click(locator1 = "//button[contains(@class,'close')]");
+		}
 
-                    Click(locator1 = "//button[contains(@class,'close')]");
-            }
+		task ("Validating the changes > Clicking on the simulation button > clicking on custom") {
+			Click(locator1 = "//button[@data-qa-id='simulation']");
 
-            task ("Validating the changes > Clicking on the simulation button > clicking on custom"){
-                
-                    Click(locator1 = "//button[@data-qa-id='simulation']");
+			Click(locator1 = "//button[contains(@aria-controls,'Selector')]");
+		}
 
-                    Click(locator1 = "//button[contains(@aria-controls,'Selector')]");
-            }
+		task ("Validating the values") {
+			AssertTextEquals(
+				locator1 = "//input[contains(@id,'width')]",
+				value1 = 1090);
 
-            task ("Validating the values"){
-                    AssertTextEquals(
-                            locator1 = "//input[contains(@id,'width')]",
-                            value1 = "1090");
+			AssertTextEquals(
+				locator1 = "//input[contains(@id,'height')]",
+				value1 = 1080);
+		}
+	}
 
-                    AssertTextEquals(
-                            locator1 = "//input[contains(@id,'height')]",
-                            value1 = "1080");
-            }
-        }
-    }
+}
