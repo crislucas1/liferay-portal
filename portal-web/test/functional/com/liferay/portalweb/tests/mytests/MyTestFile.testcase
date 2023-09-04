@@ -25,47 +25,107 @@ definition {
     @priority = "5"
     test SetScreenSizeAndValidateValues {
 
-        //task (clicking on the simulation button, changing the screen size and validating the change)
+            task ("Clicking on the simulation button > clicking on custom"){
 
-        Click(locator1 = "//button[@data-qa-id='simulation']");
+                    Click(locator1 = "//button[@data-qa-id='simulation']");
 
-        Click(locator1 = "//button[contains(@aria-controls,'Selector')]");
+                    Click(locator1 = "//button[contains(@aria-controls,'Selector')]");
+            
+            }
+
+            task ("Clicking and selecting all in the width input"){
+            
+                    Click(locator1 = "//input[contains(@id,'width')]");
+
+                    Type.sendKeys(
+                        locator1 = "//input[contains(@id,'width')]",
+                        value1 = "keys=CONTROL,a");
+            }
+
+            task ("Entering value in width input"){
+                    Type.sendKeys(
+                        locator1 = "//input[contains(@id,'width')]",
+                        value1 = 1920);
+            }
+
+            task ("Clicking and selecting all in the height input"){
+                    Click(locator1 = "//input[contains(@id,'height')]");
+                    
+                    Type.sendKeys(
+                        locator1 = "//input[contains(@id,'height')]",
+                        value1 = "keys=CONTROL,a");
+            }
+
+            task ("Entering value in width input"){
+                    Type.sendKeys(
+                        locator1 = "//input[contains(@id,'height')]",
+                        value1 = 1080);
+            }
+
+            task ("Applying the changes and closing the simulation tab"){
+                    Click(locator1 = "//button[contains(text(),'Apply')]");
+
+                    Click(locator1 = "//button[contains(@class,'close')]");
+            }
+
+            task ("Repeating the previous steps one more time due to a portal bug > Clicking on the simulation button > clicking on custom"){
+
+                Click(locator1 = "//button[@data-qa-id='simulation']");
+
+                Click(locator1 = "//button[contains(@aria-controls,'Selector')]");
         
-        Click(locator1 = "//input[contains(@id,'width')]");
+            }
 
-        Type.sendKeys(
-			locator1 = "//input[contains(@id,'width')]",
-			value1 = "keys=CONTROL,a");
+            task ("Clicking and selecting all in the width input"){
+            
+                    Click(locator1 = "//input[contains(@id,'width')]");
 
-        Type.sendKeys(
-			locator1 = "//input[contains(@id,'width')]",
-			value1 = 1920);
+                    Type.sendKeys(
+                        locator1 = "//input[contains(@id,'width')]",
+                        value1 = "keys=CONTROL,a");
+            }
 
-        Click(locator1 = "//input[contains(@id,'height')]");
-        
-        Type.sendKeys(
-			locator1 = "//input[contains(@id,'height')]",
-			value1 = "keys=CONTROL,a");
+            task ("Entering value in width input"){
+                    Type.sendKeys(
+                        locator1 = "//input[contains(@id,'width')]",
+                        value1 = 1920);
+            }
 
-        Type.sendKeys(
-			locator1 = "//input[contains(@id,'height')]",
-			value1 = 1080);
+            task ("Clicking and selecting all in the height input"){
+                    Click(locator1 = "//input[contains(@id,'height')]");
+                    
+                    Type.sendKeys(
+                        locator1 = "//input[contains(@id,'height')]",
+                        value1 = "keys=CONTROL,a");
+            }
 
-        Click(locator1 = "//button[contains(text(),'Apply')]");
+            task ("Entering value in width input"){
+                    Type.sendKeys(
+                        locator1 = "//input[contains(@id,'height')]",
+                        value1 = 1080);
+            }
 
-        Click(locator1 = "//button[contains(@class,'close')]");
+            task ("Applying the changes and closing the simulation tab"){
+                    Click(locator1 = "//button[contains(text(),'Apply')]");
 
-        Click(locator1 = "//button[@data-qa-id='simulation']");
+                    Click(locator1 = "//button[contains(@class,'close')]");
+            }
 
-        Click(locator1 = "//button[contains(@aria-controls,'Selector')]");
+            task ("Validating the changes > Clicking on the simulation button > clicking on custom"){
+                
+                    Click(locator1 = "//button[@data-qa-id='simulation']");
 
-        AssertTextEquals(
-				locator1 = "//input[contains(@id,'width')]",
-				value1 = "1090");
+                    Click(locator1 = "//button[contains(@aria-controls,'Selector')]");
+            }
 
-        AssertTextEquals(
-				locator1 = "//input[contains(@id,'height')]",
-				value1 = "1080");
-        
-    }
+            task ("Validating the values"){
+                    AssertTextEquals(
+                            locator1 = "//input[contains(@id,'width')]",
+                            value1 = "1090");
+
+                    AssertTextEquals(
+                            locator1 = "//input[contains(@id,'height')]",
+                            value1 = "1080");
+            }
+        }
     }
