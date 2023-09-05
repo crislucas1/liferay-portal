@@ -1,6 +1,6 @@
 definition {
 
-	macro accessingControlPanel {
+	macro goToControlPanel {
 		Click(locator1 = "MyTestFile#APPLICATIONS_MENU");
 
 		Click(locator1 = "MyTestFile#CONTROL_PANEL");
