@@ -25,11 +25,11 @@ definition {
 	@priority = 5
 	test ValidateConfigurationStringAtControlPanel {
 		task ("Clicking on the application menu > go to control panel tab") {
-			MyTestFile.accessingControlPanel();
+			MyTestFile.goToControlPanel();
 		}
 
 		task ("Check the configuration string") {
-			AssertElementPresent(locator1 = "MyTestFile#CONFIGURATION");
+			AssertElementPresent(locator1 = "MyTestFile#CONFIGURATION_LABEL");
 		}
 	}
 
