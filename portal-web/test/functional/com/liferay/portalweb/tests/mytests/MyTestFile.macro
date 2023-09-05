@@ -1,0 +1,9 @@
+definition {
+
+	macro accessingControlPanel {
+		Click(locator1 = "MyTestFile#APPLICATIONS_MENU");
+
+		Click(locator1 = "MyTestFile#CONTROL_PANEL");
+	}
+
+}
