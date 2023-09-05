@@ -21,7 +21,7 @@
 	<td></td>
 </tr>
 <tr>
-	<td>CONFIGURATION</td>
+	<td>CONFIGURATION_LABEL</td>
 	<td>//h2[contains(text(),'Configuration')]</td>
 	<td></td>
 </tr>
