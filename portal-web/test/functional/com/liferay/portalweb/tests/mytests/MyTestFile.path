@@ -35,6 +35,11 @@
 	<td>//button[contains(text(),'Apply')]</td>
 	<td></td>
 </tr>
+<tr>
+	<td>BUTTON_SIDENAV_CLOSE</td>
+	<td>//button[contains(@class,'close')]</td>
+	<td></td>
+</tr>
 </tbody>
 </table>
 </body>
