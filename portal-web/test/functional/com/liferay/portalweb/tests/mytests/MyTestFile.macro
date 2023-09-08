@@ -1,0 +1,8 @@
+definition {
+
+	macro openCustomSimulation {
+		Click(locator1 = "MyTestFile#OPEN_SIMULATION");
+
+		Click(locator1 = "MyTestFile#CUSTOM_BUTTON");
+	}
+}
