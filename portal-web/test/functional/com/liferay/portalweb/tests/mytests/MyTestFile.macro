@@ -35,4 +35,15 @@ definition {
 
 		Click(locator1 = "MyTestFile#BUTTON_SIDENAV_CLOSE");
 	}
+
+	macro validateChangeInSimulationPortlet {
+		AssertTextEquals(
+			locator1 = "MyTestFile#INPUT_WIDTH",
+			value1 = 1920);
+
+		AssertTextEquals(
+			locator1 = "MyTestFile#INPUT_HEIGHT",
+			value1 = 1080);
+	}
+
 }
