@@ -15,6 +15,11 @@
 	<td>//button[@data-qa-id='simulation']</td>
 	<td></td>
 </tr>
+<tr>
+	<td>CUSTOM_BUTTON</td>
+	<td>//button[contains(@aria-controls,'Selector')]</td>
+	<td></td>
+</tr>
 </tbody>
 </table>
 </body>
