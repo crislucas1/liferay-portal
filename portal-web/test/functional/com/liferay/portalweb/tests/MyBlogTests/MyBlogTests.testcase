@@ -1,0 +1,69 @@
+@component-name = "portal-lima"
+definition {
+
+	property testray.main.component.name = "Blogs";
+
+	setUp {
+		TestCase.setUpPortalInstance();
+
+		User.firstLoginPG();
+
+		Navigator.openURL();
+
+		JSONLayout.addPublicLayout(
+			groupName = "Guest",
+			layoutName = "Blogs Page");
+
+		JSONLayout.addWidgetToPublicLayout(
+			groupName = "Guest",
+			layoutName = "Blogs Page",
+			widgetName = "Blogs");
+
+		Navigator.gotoPage(pageName = "Blogs Page");
+	}
+
+	tearDown {
+		var testPortalInstance = PropsUtil.get("test.portal.instance");
+
+		if (${testPortalInstance} == "true") {
+			PortalInstances.tearDownCP();
+		}
+
+		BlogsEntry.tearDownCP();
+
+		PagesAdmin.openPagesAdmin(siteURLKey = "Guest");
+
+		PagesAdmin.deletePage(pageName = "Blogs Page");
+	}
+
+	@description = "Can Create a Blog"
+	@priority = 5
+	test CanCreateBlog {
+		task ("Given a new additional entry on the page created blog page") {
+			BlogsNavigator.openToAddEntry(
+				layoutName = "Blogs Page",
+				siteURLKey = "guest");
+		}
+
+		task ("And a blog is created") {
+			BlogsEntry.addTitle(entryTitle = "Blogs Entry Title");
+
+			BlogsEntry.addContent(entryContent = "Blogs Entry Content");
+		}
+
+		task ("Published blog") {
+			PortletEntry.publish();
+		}
+
+		task ("Validating the blog title and content") {
+			Navigator.gotoSitePage(
+				pageName = "Blogs Page",
+				siteName = "Guest");
+
+			BlogsEntry.viewEntryPG(
+				entryContent = "Blogs Entry Content",
+				entryTitle = "Blogs Entry Title");
+		}
+	}
+
+}
