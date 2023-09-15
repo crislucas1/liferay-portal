@@ -6,20 +6,44 @@ definition {
 	setUp {
 		TestCase.setUpPortalInstance();
 
-		User.firstLoginPG();
+		task ("Given user with admin privileges and navigate to home page") {
+			User.firstLoginPG();
 
-		Navigator.openURL();
+			Navigator.openURL();
+		}
 
-		JSONLayout.addPublicLayout(
-			groupName = "Guest",
-			layoutName = "Blogs Page");
+		task ("Adding a page and add blog widget to public layout") {
+			JSONLayout.addPublicLayout(
+				groupName = "Guest",
+				layoutName = "Blogs Page");
 
-		JSONLayout.addWidgetToPublicLayout(
-			groupName = "Guest",
-			layoutName = "Blogs Page",
-			widgetName = "Blogs");
+			JSONLayout.addWidgetToPublicLayout(
+				groupName = "Guest",
+				layoutName = "Blogs Page",
+				widgetName = "Blogs");
+		}
 
-		Navigator.gotoPage(pageName = "Blogs Page");
+		task ("Going to the page and adding a blog entry") {
+			Navigator.gotoPage(pageName = "Blogs Page");
+
+			BlogsNavigator.openToAddEntry(
+				layoutName = "Blogs Page",
+				siteURLKey = "guest");
+		}
+
+		task ("Creating and publishing a blog") {
+			BlogsEntry.addTitle(entryTitle = "Blogs Entry Title");
+
+			BlogsEntry.addContent(entryContent = "Blogs Entry Content");
+
+			PortletEntry.publish();
+		}
+
+		task ("Go to the blogs page") {
+			Navigator.gotoSitePage(
+				pageName = "Blogs Page",
+				siteName = "Guest");
+		}
 	}
 
 	tearDown {
@@ -39,30 +63,36 @@ definition {
 	@description = "Can Create a Blog"
 	@priority = 5
 	test CanCreateBlog {
-		task ("Given a new additional entry on the page created blog page") {
-			BlogsNavigator.openToAddEntry(
-				layoutName = "Blogs Page",
-				siteURLKey = "guest");
-		}
-
-		task ("And a blog is created") {
-			BlogsEntry.addTitle(entryTitle = "Blogs Entry Title");
-
-			BlogsEntry.addContent(entryContent = "Blogs Entry Content");
-		}
-
-		task ("Published blog") {
-			PortletEntry.publish();
-		}
-
 		task ("Validating the blog title and content") {
-			Navigator.gotoSitePage(
-				pageName = "Blogs Page",
-				siteName = "Guest");
-
 			BlogsEntry.viewEntryPG(
 				entryContent = "Blogs Entry Content",
 				entryTitle = "Blogs Entry Title");
+		}
+	}
+
+	@description = "Check if it is possible to edit a blog"
+	@priority = 5
+	test CanEditBlog {
+		task ("Accessing the edit tab and changing the title and content of the blog") {
+			LexiconEntry.gotoVerticalEllipsisMenuItemNoError(menuItem = "Edit");
+
+			BlogsEntry.editEntryContent(
+				entryContent = "Blogs Entry Content",
+				entryContentEdit = "Blogs Entry Content Edit",
+				entryTitle = "Blogs Entry Title",
+				entryTitleEdit = "Blogs Entry Title Edit");
+		}
+
+		task ("Publishing the blog and accessing the blogs page") {
+			PortletEntry.publish();
+
+			Navigator.gotoPage(pageName = "Blogs Page");
+		}
+
+		task ("Checking if the edit worked") {
+			BlogsEntry.viewEntryPG(
+				entryContent = "Blogs Entry Content Edit",
+				entryTitle = "Blogs Entry Title Edit");
 		}
 	}
 
