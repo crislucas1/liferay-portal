@@ -70,6 +70,50 @@ definition {
 		}
 	}
 
+	@description = "Check if it is possible to delete a blog"
+	@priority = 4
+	test CanDeleteBlog {
+		task ("Creating and publishing a blog") {
+			BlogsNavigator.openToAddEntry(
+				layoutName = "Blogs Page",
+				siteURLKey = "guest");
+
+			BlogsEntry.addTitle(entryTitle = "Blogs Entry2 Title");
+
+			BlogsEntry.addContent(entryContent = "Blogs Entry2 Content");
+
+			PortletEntry.publish();
+		}
+
+		task ("Accessing the page and validating the blogs created") {
+			Navigator.gotoSitePage(
+				pageName = "Blogs Page",
+				siteName = "Guest");
+
+			BlogsEntry.viewEntryPG(
+				entryContent = "Blogs Entry Content",
+				entryTitle = "Blogs Entry Title");
+
+			BlogsEntry.viewEntryPG(
+				entryContent = "Blogs Entry2 Content",
+				entryTitle = "Blogs Entry2 Title");
+		}
+
+		task ("Deleting one of the blogs") {
+			BlogsEntry.moveToRecycleBinPG(
+				entryContent = "Blogs Entry2 Content",
+				entryTitle = "Blogs Entry2 Title");
+		}
+
+		task ("And validating the absent and present element") {
+			BlogsEntry.viewNoPG(entryTitle = "Blogs Entry2 Title");
+
+			BlogsEntry.viewEntryPG(
+				entryContent = "Blogs Entry Content",
+				entryTitle = "Blogs Entry Title");
+		}
+	}
+
 	@description = "Check if it is possible to edit a blog"
 	@priority = 5
 	test CanEditBlog {
