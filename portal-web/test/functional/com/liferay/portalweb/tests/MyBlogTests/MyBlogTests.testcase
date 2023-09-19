@@ -140,4 +140,48 @@ definition {
 		}
 	}
 
+	@description = "Check if it is possible to search for a blog"
+	@priority = 3
+	test CanSearchBlogs {
+		task ("Creating and publishing a blog") {
+			BlogsNavigator.openToAddEntry(
+				layoutName = "Blogs Page",
+				siteURLKey = "guest");
+
+			BlogsEntry.addTitle(entryTitle = "Cristiano Lucas");
+
+			BlogsEntry.addContent(entryContent = "Cristiano Lucas");
+
+			PortletEntry.publish();
+		}
+
+		task ("Accessing the page and validating the blogs created") {
+			Navigator.gotoPage(pageName = "Blogs Page");
+
+			BlogsEntry.viewEntryPG(
+				entryContent = "Blogs Entry Content",
+				entryTitle = "Blogs Entry Title");
+
+			BlogsEntry.viewEntryPG(
+				entryContent = "Cristiano Lucas",
+				entryTitle = "Cristiano Lucas");
+		}
+
+		task ("Accessing the blogs tab") {
+			BlogsNavigator.openBlogsAdmin(siteURLKey = "guest");
+		}
+
+		task ("End searching for an existing blog and a blog that doesn't exist") {
+			BlogsEntry.searchCP(
+				entryContent = "Blogs Entry Content",
+				entrySearchTerm = "Blogs Entry Content",
+				entryTitle = "Blogs Entry Title");
+
+			BlogsEntry.searchNoCP(
+				entryContent = "Blogs Entry Content",
+				entrySearchTerm = "Blogs1 Entry1 Title1",
+				entryTitle = "Blogs");
+		}
+	}
+
 }
