@@ -12,26 +12,25 @@ definition {
 			Navigator.openURL();
 		}
 
-		JSONLayout.addPublicLayout(
-			groupName = "Guest",
-			layoutName = "Documents and Media Page");
+		task ("Creating a page and adding a widget to the page") {
+			JSONLayout.addPublicLayout(
+				groupName = "Guest",
+				layoutName = "Documents and Media Page");
 
-		JSONLayout.addWidgetToPublicLayout(
-			column = 1,
-			groupName = "Guest",
-			layoutName = "Documents and Media Page",
-			widgetName = "Documents and Media");
+			JSONLayout.addWidgetToPublicLayout(
+				groupName = "Guest",
+				layoutName = "Documents and Media Page",
+				widgetName = "Documents and Media");
+		}
 
-		DMNavigator.openDocumentsAndMediaAdmin(siteURLKey = "guest");
-
-		JSONDocument.addFileWithUploadedFile(
-			dmDocumentDescription = "Document Description",
-			dmDocumentTitle = "DMTest 1",
-			groupName = "Guest",
-			mimeType = "image/jpeg",
-			sourceFileName = "Commerce_Black.jpg");
-
-		DMNavigator.openDocumentsAndMediaAdmin(siteURLKey = "guest");
+		task ("Adding a document and accessing the page") {
+			JSONDocument.addFileWithUploadedFile(
+				dmDocumentDescription = "Document Description",
+				dmDocumentTitle = "DMTest 1",
+				groupName = "Guest",
+				mimeType = "image/jpeg",
+				sourceFileName = "Commerce_Black.jpg");
+		}
 	}
 
 	tearDown {
@@ -57,10 +56,12 @@ definition {
 	@priority = 5
 	test CanCreateDM {
 		task ("When the user creates Documents and Media (Upload the file)") {
+			DMNavigator.openDocumentsAndMediaAdmin(siteURLKey = "guest");
+
 			DMDocument.addCP(
 				dmDocumentDescription = "Document Description",
-				dmDocumentFile = "Commerce_Black.jpg",
-				dmDocumentTitle = "DMTest 1");
+				dmDocumentFile = "Commerce_Blue.jpg",
+				dmDocumentTitle = "Document Test1");
 		}
 
 		task ("Accessing the Documents and Media page") {
@@ -68,6 +69,40 @@ definition {
 		}
 
 		task ("Validating the documents and media created") {
+			DMDocument.viewPG(dmDocumentTitle = "Document Test1");
+		}
+	}
+
+	@description = "Can Delete a Documents and Media"
+	@priority = 4
+	test CanDeleteDM {
+		task ("Creating another document and media and validating the creation of the two existing DMs") {
+			JSONDocument.addFileWithUploadedFile(
+				dmDocumentDescription = "Document Description",
+				dmDocumentTitle = "DMTest 2",
+				groupName = "Guest",
+				mimeType = "image/jpeg",
+				sourceFileName = "Commerce_Blue.jpg");
+
+			DMDocument.viewPG(dmDocumentTitle = "DMTest 1");
+
+			Click(locator1 = "Icon#BACK");
+
+			DMDocument.viewPG(dmDocumentTitle = "DMTest 2");
+		}
+
+		task ("Accessing the Documents and Media Portlet and Deleting a DM") {
+			ProductMenu.gotoPortlet(
+				category = "Content & Data",
+				portlet = "Documents and Media",
+				site = ${siteName});
+
+			DMDocument.deleteCP(dmDocumentTitle = "DMTest 2");
+		}
+
+		task ("Validating that the excluded DM is not present and the DM is present") {
+			DMDocument.cannotViewCP(dmDocumentTitle = "DMTest 2");
+
 			DMDocument.viewPG(dmDocumentTitle = "DMTest 1");
 		}
 	}
