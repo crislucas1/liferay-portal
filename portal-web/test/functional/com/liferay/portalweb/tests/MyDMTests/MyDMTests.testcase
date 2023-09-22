@@ -1,0 +1,74 @@
+@component-name = "portal-document-management"
+definition {
+
+	property testray.main.component.name = "Document Management";
+
+	setUp {
+		TestCase.setUpPortalInstance();
+
+		task ("Given user with admin privileges and navigate to home page") {
+			User.firstLoginPG();
+
+			Navigator.openURL();
+		}
+
+		JSONLayout.addPublicLayout(
+			groupName = "Guest",
+			layoutName = "Documents and Media Page");
+
+		JSONLayout.addWidgetToPublicLayout(
+			column = 1,
+			groupName = "Guest",
+			layoutName = "Documents and Media Page",
+			widgetName = "Documents and Media");
+
+		DMNavigator.openDocumentsAndMediaAdmin(siteURLKey = "guest");
+
+		JSONDocument.addFileWithUploadedFile(
+			dmDocumentDescription = "Document Description",
+			dmDocumentTitle = "DMTest 1",
+			groupName = "Guest",
+			mimeType = "image/jpeg",
+			sourceFileName = "Commerce_Black.jpg");
+
+		DMNavigator.openDocumentsAndMediaAdmin(siteURLKey = "guest");
+	}
+
+	tearDown {
+		var testPortalInstance = PropsUtil.get("test.portal.instance");
+
+		if (${testPortalInstance} == "true") {
+			PortalInstances.tearDownCP();
+		}
+		else {
+			DMDocument.tearDownCP();
+
+			DMFolder.tearDownCP();
+
+			PagesAdmin.openPagesAdmin(siteURLKey = "Guest");
+
+			PagesAdmin.deletePage(pageName = "Documents and Media Page");
+
+			User.logoutPG();
+		}
+	}
+
+	@description = "Can Create a Documents and Media"
+	@priority = 5
+	test CanCreateDM {
+		task ("When the user creates Documents and Media (Upload the file)") {
+			DMDocument.addCP(
+				dmDocumentDescription = "Document Description",
+				dmDocumentFile = "Commerce_Black.jpg",
+				dmDocumentTitle = "DMTest 1");
+		}
+
+		task ("Accessing the Documents and Media page") {
+			Navigator.gotoPage(pageName = "Documents and Media Page");
+		}
+
+		task ("Validating the documents and media created") {
+			DMDocument.viewPG(dmDocumentTitle = "DMTest 1");
+		}
+	}
+}
