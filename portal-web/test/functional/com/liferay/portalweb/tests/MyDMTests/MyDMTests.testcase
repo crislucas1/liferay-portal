@@ -107,6 +107,42 @@ definition {
 		}
 	}
 
+	@description = "Can Download a Documents and Media"
+	@priority = 3
+	test CanDownloadDM {
+		task ("Creating another document and media and validating the creation of the two existing DMs") {
+			JSONDocument.addFileWithUploadedFile(
+				dmDocumentDescription = "Document Description",
+				dmDocumentTitle = "DMTest 2",
+				groupName = "Guest",
+				mimeType = "image/jpeg",
+				sourceFileName = "Commerce_Blue.jpg");
+
+			Navigator.gotoPage(pageName = "Documents and Media Page");
+
+			DMDocument.viewPG(dmDocumentTitle = "DMTest 1");
+
+			Click(locator1 = "Icon#BACK");
+
+			DMDocument.viewPG(dmDocumentTitle = "DMTest 2");
+		}
+
+		task ("Accessing the Documents and Media Portlet and Downloading a DM") {
+			ProductMenu.gotoPortlet(
+				category = "Content & Data",
+				portlet = "Documents and Media",
+				site = ${siteName});
+
+			DMDocument.downloadPG(dmDocumentTitle = "DMTest 1");
+		}
+
+		task ("Checking the file that has been downloaded and the file that has not been downloaded") {
+			DMDocument.assertFileNameFromTempFolder(fileName = "Commerce_Black.jpg");
+
+			DMDocument.assertNoFileNameFromTempFolder(fileName = "Commerce_Blue.jpg");
+		}
+	}
+
 	@description = "Can Edit a Documents and Media"
 	@priority = 5
 	test CanEditDM {
